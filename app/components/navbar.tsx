@@ -7,7 +7,7 @@ const Navbar = () => {
         <p className="text-2xl font-bold text-gradient">Resume App</p>
       </Link>
       <Link to="/upload">
-        <p className="primary-button w-fit">Resume App</p>
+        <p className="primary-button w-fit">Upload Resume</p>
       </Link>
     </nav>
   );
