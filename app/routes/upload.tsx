@@ -1,10 +1,26 @@
 import { useState } from "react";
+import FileUploader from "~/components/FileUploader";
 import Navbar from "~/components/Navbar";
 
 const upload = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [statusText, setStatusText] = useState("");
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileSelect = (file: File | null) => {
+    setFile(file);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget.closest("form");
+    if (!form) return;
+    const formData = new FormData(form);
+
+    const companyName = formData.get("company-name") as string;
+    const jobTitle = formData.get("job-title") as string;
+    const jobDescription = formData.get("job-description") as string;
+  };
 
   return (
     <main className="bg-[url('/images/bg-main.svg')] bg-cover">
@@ -37,7 +53,6 @@ const upload = () => {
                   name="company-name"
                   placeholder="Company name"
                   id="company-name"
-                  required
                 />
               </div>
               <div className="form-div">
@@ -47,7 +62,6 @@ const upload = () => {
                   name="job-title"
                   placeholder="Job title"
                   id="job-title"
-                  required
                 />
               </div>
               <div className="form-div">
@@ -57,12 +71,11 @@ const upload = () => {
                   name="job-description"
                   placeholder="Job description"
                   id="job-description"
-                  required
                 />
               </div>
               <div className="form-div">
                 <label htmlFor="uploader">Upload Resume</label>
-                <div>Uploader</div>
+                <FileUploader onFileSelect={handleFileSelect} />
               </div>
               <button className="primary-button" type="submit">
                 Analyze Resume
